@@ -4,12 +4,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-public class Webscrape {
+public class methods {
 
-	public static void main(String[] args) {
+	public void Webscrape(String dia,String mes,String anyo, String dia1, String mes1, String anyo1, String ciudad, String codigo) {
 		
-		
-		final String url="https://espanol.wunderground.com/history/airport/LEBB/2017/1/1/CustomHistory.html?dayend=1&monthend=1&yearend=2018&req_city=&req_state=&req_statename=&reqdb.zip=&reqdb.magic=&reqdb.wmo=";
+		final String url="https://espanol.wunderground.com/history/airport/"+codigo+"/"+anyo+"/"+mes+"/"+dia+"/CustomHistory.html?dayend="+dia1+"&monthend="+mes1+"&yearend="+anyo1+"&req_city=&req_state=&req_statename=&reqdb.zip=&reqdb.magic=&reqdb.wmo=";
 		ArrayList<DiaRegistrado> diasregistrados = new ArrayList<DiaRegistrado>();
 		try {
 			final Document document=Jsoup.connect(url).get();
@@ -68,5 +67,4 @@ public class Webscrape {
 		}
 
 	}
-
 }
