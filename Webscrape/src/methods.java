@@ -1,4 +1,7 @@
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -6,10 +9,16 @@ import org.jsoup.nodes.Element;
 
 public class methods {
 
-	public void Webscrape(String dia,String mes,String anyo, String dia1, String mes1, String anyo1, String ciudad, String codigo) {
+	public void Webscrape(String dia,String mes,String anyo, String dia1, String mes1, String anyo1, String ciudad, String codigo,int day, int month, int year) {
 		
 		final String url="https://espanol.wunderground.com/history/airport/"+codigo+"/"+anyo+"/"+mes+"/"+dia+"/CustomHistory.html?dayend="+dia1+"&monthend="+mes1+"&yearend="+anyo1+"&req_city=&req_state=&req_statename=&reqdb.zip=&reqdb.magic=&reqdb.wmo=";
 		ArrayList<DiaRegistrado> diasregistrados = new ArrayList<DiaRegistrado>();
+		Date dt= new Date(year,month,day-1);
+		Bdatos bd= new Bdatos();
+		bd.actualizarEstaciones(codigo);
+		bd.insertarEstaciones(codigo, ciudad);
+		
+		int i =0;
 		try {
 			final Document document=Jsoup.connect(url).get();
 			
@@ -49,9 +58,18 @@ public class methods {
 						final String sprecip=row.select("td:nth-of-type(20)").text();
 						final double precip=Double.parseDouble(sprecip);
 						
+						Calendar c= Calendar.getInstance();
+						c.setTime(dt);
+						c.add(Calendar.DATE, 1);
+						dt=c.getTime();
+						System.out.println(dt.getDate());
+						System.out.println(dt.getMonth()+1);
+						System.out.println(dt.getYear());
+						bd.insertarDias(dt.getDate(), (dt.getMonth()+1), dt.getYear(), tempHigh, tempAvg, tempLow, rocioHigh, rocioAvg, rocioLow, humedadHigh, humedadAvg, humedadLow, precip, ciudad);
 						DiaRegistrado d=new DiaRegistrado(numDia,tempHigh,tempAvg,tempLow,rocioHigh,rocioAvg,rocioLow,humedadHigh,humedadAvg,humedadLow,precip);
 					   System.out.println(d.toString());
 						diasregistrados.add(d);
+						
 						
 					} catch (NumberFormatException n) {
 					    // ... Do nothing.
@@ -61,6 +79,7 @@ public class methods {
 					
 				}
 			}
+			
 		} 
 		catch (Exception ex) {
 			ex.printStackTrace();

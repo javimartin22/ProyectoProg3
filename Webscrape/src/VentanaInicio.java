@@ -14,6 +14,9 @@ import javax.swing.JScrollBar;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.*;
+import java.awt.Color;
+
 
 public class VentanaInicio extends JFrame {
 
@@ -36,7 +39,7 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 	}
-
+  
 	/**
 	 * Create the frame.
 	 */
@@ -121,14 +124,30 @@ public class VentanaInicio extends JFrame {
 				String ciudad=txtCiudad.getText();
 				String codigo=txtCodigo.getText();
 				
+				int Iday=Integer.parseInt(Idia);
+				int Imonth= Integer.parseInt(Imes);
+				Imonth= Imonth-1;
+				int Iyear= Integer.parseInt(Ianyo);
 				methods met= new methods();
-				met.Webscrape(Idia, Imes, Ianyo, Fdia, Fmes, Fanyo,ciudad,codigo);
+				met.Webscrape(Idia, Imes, Ianyo, Fdia, Fmes, Fanyo,ciudad,codigo,Iday,Imonth,Iyear);
 				
-				
-				
+				dispose();
+				VentanaTable v2= new VentanaTable();
+				v2.setVisible(true);
 			}
 		});
-		btnBusqueda.setBounds(272, 211, 132, 23);
+		btnBusqueda.setBounds(272, 211, 152, 23);
 		contentPane.add(btnBusqueda);
+		
+		JButton btnReiniciar = new JButton("Reiniciar BD");
+		btnReiniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Bdatos bd= new Bdatos();
+				bd.reiniciarBD();
+			}
+		});
+		btnReiniciar.setBackground(new Color(255, 0, 0));
+		btnReiniciar.setBounds(10, 211, 123, 23);
+		contentPane.add(btnReiniciar);
 	}
 }
