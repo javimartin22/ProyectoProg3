@@ -15,7 +15,12 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.awt.Color;
+import java.awt.Font;
 
 
 public class VentanaInicio extends JFrame {
@@ -136,7 +141,7 @@ public class VentanaInicio extends JFrame {
 				v2.setVisible(true);
 			}
 		});
-		btnBusqueda.setBounds(272, 211, 152, 23);
+		btnBusqueda.setBounds(280, 211, 144, 23);
 		contentPane.add(btnBusqueda);
 		
 		JButton btnReiniciar = new JButton("Reiniciar BD");
@@ -149,5 +154,33 @@ public class VentanaInicio extends JFrame {
 		btnReiniciar.setBackground(new Color(255, 0, 0));
 		btnReiniciar.setBounds(10, 211, 123, 23);
 		contentPane.add(btnReiniciar);
+		
+		JButton btnVerCodigos = new JButton("Ver Codigos");
+		btnVerCodigos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				VentanaCodigos vc= new VentanaCodigos();
+				vc.setVisible(true);
+			}
+		});
+		btnVerCodigos.setBounds(283, 167, 115, 23);
+		contentPane.add(btnVerCodigos);
+		
+		JButton btnNewButton = new JButton("PREDICCION");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				  System.out.println(LocalDateTime.now().getDayOfMonth());
+				String mesdd=Integer.toString(LocalDateTime.now().getMonthValue());
+				
+				methods mett=new methods();
+				mett.Prediccion("1",mesdd,"2018", "LEBB");
+				//dispose();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.setBackground(new Color(64, 224, 208));
+		btnNewButton.setBounds(147, 211, 109, 23);
+		contentPane.add(btnNewButton);
 	}
 }
